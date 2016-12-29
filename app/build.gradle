@@ -1,0 +1,41 @@
+apply plugin: 'com.android.model.application'
+
+model {
+    android {
+        compileSdkVersion = 24
+        buildToolsVersion = "24.0.0"
+
+        defaultConfig.with {
+            applicationId = "com.zork.tictactoe"
+            minSdkVersion.apiLevel = 19
+            targetSdkVersion.apiLevel = 24
+            versionCode = 1
+            versionName = "1.0"
+        }
+    }
+    android.buildTypes {
+        release {
+            minifyEnabled = false
+        }
+    }
+    android.ndk {
+        moduleName = "game"
+        cppFlags.add("-std=c++14")
+        cppFlags.add("-I" + file("src/main/jni").absolutePath)
+
+        stl = "gnustl_shared"
+
+        ldLibs.addAll(["log", "android", "EGL", "GLESv3"])
+    }
+    android.productFlavors {
+        create ("fat") {
+            ndk.abiFilters.add("arm64-v8a")
+            ndk.abiFilters.add("armeabi-v7a")
+            ndk.abiFilters.add("x86")
+        }
+    }
+}
+
+dependencies {
+    compile 'com.android.support:support-v4:25.1.0'
+}
