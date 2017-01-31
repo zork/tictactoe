@@ -9,7 +9,6 @@
 #include <iosfwd>
 
 class FovPort;
-class Quaternion;
 class Vector;
 class Vector4;
 
@@ -41,6 +40,9 @@ class Matrix {
   ~Matrix();
 
   const float* value() const { return value_; }
+  const float value(int row, int column) const {
+    return value_[column + 4 * row];
+  }
 
   void Identity();
   void FrustumProjection(float left,

@@ -15,6 +15,7 @@ class FileManagerAndroid : public FileManager {
  public:
   FileManagerAndroid(jobject asset_manager, const char* data_root);
   ~FileManagerAndroid() override;
+  DISALLOW_COPY_AND_ASSIGN(FileManagerAndroid);
 
  private:
   // FileManager:
@@ -29,6 +30,4 @@ class FileManagerAndroid : public FileManager {
   jobject asset_manager_object_;
   AAssetManager* asset_manager_;
   std::string data_root_;
-
-  DISALLOW_COPY_AND_ASSIGN(FileManagerAndroid);
 };

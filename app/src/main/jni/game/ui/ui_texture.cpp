@@ -41,6 +41,7 @@ bool UiTexture::UploadTexture() {
   AutoLock lock(&lock_);
   if (image_) {
     texture_ = Texture::LoadResizedImage(std::move(image_), Texture::kNearest,
+                                         Texture::kNearestMipmapLinear,
                                          Texture::kClampToEdge, &right_, &top_);
     return true;
   }

@@ -38,17 +38,18 @@ IdentityShader::IdentityShader() {}
 
 IdentityShader::~IdentityShader() {}
 
-void IdentityShader::DrawTriangles(const float vertices[],
-                                   size_t vertex_count,
-                                   const float colors[],
-                                   size_t color_count,
-                                   const uint32_t faces[],
-                                   size_t face_count) {
+void IdentityShader::DrawPrimitives(const float vertices[],
+                                    size_t vertex_count,
+                                    const float colors[],
+                                    size_t color_count,
+                                    const uint32_t faces[],
+                                    size_t face_count,
+                                    PrimitiveType type) {
   CHECK_THREAD(thread::Render);
 #if ALLOW_CLIENT_VERTEX_BUFFERS
   scoped_refptr<VertexBuffer> v_buffer(new VertexBuffer(kAttributeVertex, 3));
   scoped_refptr<VertexBuffer> c_buffer(new VertexBuffer(kAttributeColor, 4));
-  scoped_refptr<ElementBuffer> e_buffer(new ElementBuffer(kTriangles));
+  scoped_refptr<ElementBuffer> e_buffer(new ElementBuffer(type));
 
   v_buffer->SetDataPointer(vertices, 0);
   c_buffer->SetDataPointer(colors, 0);
@@ -59,7 +60,7 @@ void IdentityShader::DrawTriangles(const float vertices[],
   e_buffer->Draw();
 #else
   std::unique_ptr<VertexArray> vertex_array(CreateVertexArray(
-      vertices, vertex_count, colors, color_count, faces, face_count));
+      vertices, vertex_count, colors, color_count, faces, face_count, type));
   vertex_array->Draw();
 #endif
 }
@@ -70,14 +71,15 @@ std::unique_ptr<VertexArray> IdentityShader::CreateVertexArray(
     const float colors[],
     size_t color_count,
     const uint32_t faces[],
-    size_t face_count) {
+    size_t face_count,
+    PrimitiveType type) {
   CHECK_THREAD(thread::Render);
   std::unique_ptr<VertexArray> vertex_array(new VertexArray);
   ScopedBind<VertexArray> bind(vertex_array.get());
 
   scoped_refptr<VertexBuffer> v_buffer(new VertexBuffer(kAttributeVertex, 3));
   scoped_refptr<VertexBuffer> c_buffer(new VertexBuffer(kAttributeColor, 4));
-  scoped_refptr<ElementBuffer> e_buffer(new ElementBuffer(kTriangles));
+  scoped_refptr<ElementBuffer> e_buffer(new ElementBuffer(type));
 
   v_buffer->SetData(vertices, vertex_count, 0);
   c_buffer->SetData(colors, color_count, 0);

@@ -21,6 +21,7 @@ class Shader {
  public:
   Shader();
   virtual ~Shader();
+  DISALLOW_COPY_AND_ASSIGN(Shader);
 
   // Only called on Render thread.
   void Use();
@@ -38,7 +39,4 @@ class Shader {
 
   GLuint program_;
   GLuint uniform_mvp_matrix_;
-
- private:
-  DISALLOW_COPY_AND_ASSIGN(Shader);
 };

@@ -22,6 +22,8 @@ class TimeInterval {
   static TimeInterval FromMinutes(double minutes);
   static TimeInterval FromSeconds(double seconds);
   static TimeInterval FromMilliseconds(double milliseconds);
+  static TimeInterval FromMicroseconds(double microseconds);
+  static TimeInterval FromNanoseconds(double nanoseconds);
 
   TimeInterval();
   ~TimeInterval();
@@ -29,6 +31,8 @@ class TimeInterval {
   // 60 ticks per second.
   double Seconds() const { return seconds_; }
   double Milliseconds() const { return seconds_ * 1000; }
+  double Microseconds() const { return seconds_ * 1000000; }
+  double Nanoseconds() const { return seconds_ * 1000000000; }
 
   TimeInterval operator-(const TimeInterval& other) const;
   const TimeInterval& operator-=(const TimeInterval& other);

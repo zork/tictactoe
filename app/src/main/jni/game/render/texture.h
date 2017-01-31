@@ -17,6 +17,10 @@ class Texture {
   enum Filter {
     kNearest,
     kLinear,
+    kNearestMipmapNearest,
+    kLinearMipmapNearest,
+    kNearestMipmapLinear,
+    kLinearMipmapLinear,
   };
 
   enum Wrap {
@@ -26,14 +30,19 @@ class Texture {
 
   static std::unique_ptr<Texture> LoadResizedImage(
       std::unique_ptr<Bitmap> image,
-      Filter filter,
+      Filter mag_filter,
+      Filter min_filter,
       Wrap wrap,
       float* texture_right,
       float* texture_top);
   static unsigned int GetFilter(Filter filter);
   static unsigned int GetWrap(Wrap wrap);
+  static bool IsMipmapped(Filter filter);
 
-  Texture(std::unique_ptr<Bitmap> image, Filter filter, Wrap wrap);
+  Texture(std::unique_ptr<Bitmap> image,
+          Filter mag_filter,
+          Filter min_filter,
+          Wrap wrap);
   ~Texture();
   DISALLOW_COPY_AND_ASSIGN(Texture);
 
@@ -41,7 +50,8 @@ class Texture {
   void Bind();
 
  private:
-  const Filter filter_;
+  const Filter min_filter_;
+  const Filter mag_filter_;
   const Wrap wrap_;
 
   uint32_t texture_id_;

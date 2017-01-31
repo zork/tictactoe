@@ -54,6 +54,18 @@ TimeInterval TimeInterval::FromMilliseconds(double milliseconds) {
   return TimeInterval(milliseconds / 1000.0);
 }
 
+// static
+TimeInterval TimeInterval::FromMicroseconds(double microseconds) {
+  // 1000000 microseconds per second
+  return TimeInterval(microseconds / 1000000.0);
+}
+
+// static
+TimeInterval TimeInterval::FromNanoseconds(double nanoseconds) {
+  // 1000000000 nanoseconds per second
+  return TimeInterval(nanoseconds / 1000000000.0);
+}
+
 TimeInterval::TimeInterval() : seconds_(0) {}
 
 TimeInterval::~TimeInterval() {}

@@ -17,6 +17,14 @@ class Rect {
     return Rect(x, y, width, height);
   }
 
+  static const Rect MakeXYRB(int x, int y, int right, int bottom) {
+    return Rect(x, y, right - x, bottom - y);
+  }
+
+  static const Rect MakeXYRT(int x, int y, int right, int top) {
+    return Rect(x, y, right - x, top - y);
+  }
+
   int x() const { return x_; }
   int y() const { return y_; }
   int width() const { return width_; }
