@@ -105,7 +105,7 @@ View* View::GetViewAt(int x, int y) {
     // Don't need to lock |children_| on UI thread
     for (const auto& child : children_) {
       View* view = child->GetViewAt(x, y);
-      if (view >= 0)
+      if (view)
         return view;
     }
   }
